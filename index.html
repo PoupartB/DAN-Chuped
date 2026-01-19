@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Échelle DAN – Douleur aiguë du nouveau-né (Avant/Pendant/Après)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body{font-family:Arial,sans-serif;background:#f6f7f9;margin:0;padding:20px;color:#111}
+    .page{max-width:1100px;margin:auto;background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+    h1{margin:0 0 6px 0}
+    .subtitle{opacity:.8;margin:0 0 18px 0}
+    .badge{display:inline-block;padding:6px 12px;border-radius:999px;background:#eee;margin-right:8px;font-size:14px}
+    .desc{font-size:14px;opacity:.88;line-height:1.4}
+    .scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}
+    .scoreBox{border:1px solid #e6e6e6;border-radius:12px;padding:14px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+    .scoreBox .label{font-size:13px;opacity:.75;margin-bottom:6px}
+    .scoreBox .value{font-size:28px;font-weight:800}
+    .hint{font-size:14px;opacity:.8;margin-top:6px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 0 0}
+    button{padding:10px 12px;border-radius:10px;border:1px solid #ddd;background:#fff;cursor:pointer}
+    button:hover{filter:brightness(.98)}
+    table{width:100%;border-collapse:collapse;margin-top:14px}
+    th,td{border:1px solid #ddd;padding:10px;vertical-align:top}
+    th{background:#f0f0f0;text-align:left}
+    .itemtitle{font-weight:700;margin-bottom:6px}
+    .small{font-size:13px;opacity:.85;line-height:1.35}
+    .opts{display:grid;gap:8px}
+    label.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid #eee;border-radius:10px;padding:8px;background:#fafafa;cursor:pointer}
+    label.opt input{margin-top:3px}
+    .col{min-width:220px}
+    .legend{margin-top:16px}
+    @media print{
+      body{background:#fff;padding:0}
+      .page{box-shadow:none;border-radius:0}
+      .actions{display:none}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div>
+      <span class="badge">Douleur aiguë</span>
+      <span class="badge">Naissance – 3 mois</span>
+    </div>
+
+    <h1>ÉCHELLE DAN</h1>
+    <p class="subtitle">Douleur Aiguë du Nouveau-né — Avant / Pendant / Après</p>
+
+    <p class="desc">
+      Échelle d’évaluation de la douleur aiguë du nouveau-né, élaborée et validée pour mesurer la douleur d’un soin
+      chez le nouveau-né à terme ou prématuré, utilisable jusqu’à 3 mois.
+      <strong>Chaque temps = score 0 à 10</strong> (facial 0–4 + membres 0–3 + vocale 0–3).
+    </p>
+
+    <div class="scores">
+      <div class="scoreBox">
+        <div class="label">Score AVANT le soin (0–10)</div>
+        <div class="value" id="score_avant">—</div>
+        <div class="hint" id="hint_avant">Coche 1 réponse par item.</div>
+      </div>
+      <div class="scoreBox">
+        <div class="label">Score PENDANT le soin (0–10)</div>
+        <div class="value" id="score_pendant">—</div>
+        <div class="hint" id="hint_pendant">Coche 1 réponse par item.</div>
+      </div>
+      <div class="scoreBox">
+        <div class="label">Score APRÈS le soin (0–10)</div>
+        <div class="value" id="score_apres">—</div>
+        <div class="hint" id="hint_apres">Coche 1 réponse par item.</div>
+      </div>
+      <div class="scoreBox">
+        <div class="label">Évolution</div>
+        <div class="hint" id="evol">Avant: — · Pendant: — · Après: —</div>
+        <div class="hint">Astuce : tu peux imprimer cette page et noter l’heure + le soin.</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" id="resetBtn">Réinitialiser tout</button>
+      <button type="button" id="printBtn">Imprimer</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Items</th>
+          <th class="col">Avant le soin</th>
+          <th class="col">Pendant le soin</th>
+          <th class="col">Après le soin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- FACIAL -->
+        <tr>
+          <td>
+            <div class="itemtitle">Réponses faciales (0 à 4)</div>
+            <div class="small">
+              0 : calme<br>
+              1 : pleurniche avec alternance fermeture/ouverture douce des yeux<br><br>
+              Signes (paupières, sourcils, sillons naso-labiaux) :<br>
+              2 : légers, intermittents, avec retour au calme<br>
+              3 : modérés<br>
+              4 : très marqués, permanents
+            </div>
+          </td>
+          <td>
+            <div class="opts" data-group="facial" data-time="avant"></div>
+          </td>
+          <td>
+            <div class="opts" data-group="facial" data-time="pendant"></div>
+          </td>
+          <td>
+            <div class="opts" data-group="facial" data-time="apres"></div>
+          </td>
+        </tr>
+
+        <!-- MEMBRES -->
+        <tr>
+          <td>
+            <div class="itemtitle">Mouvements des membres (0 à 3)</div>
+            <div class="small">
+              0 : calmes ou mouvements doux<br><br>
+              Signes : pédalage, écartement des orteils, membres inférieurs raides et surélevés,
+              agitation des bras, réaction de retrait :<br>
+              1 : légers, intermittents, avec retour au calme<br>
+              2 : modérés<br>
+              3 : très marqués, permanents
+            </div>
+          </td>
+          <td><div class="opts" data-group="membres" data-time="avant"></div></td>
+          <td><div class="opts" data-group="membres" data-time="pendant"></div></td>
+          <td><div class="opts" data-group="membres" data-time="apres"></div></td>
+        </tr>
+
+        <!-- VOCALE -->
+        <tr>
+          <td>
+            <div class="itemtitle">Expression vocale de la douleur (0 à 3)</div>
+            <div class="small">
+              (Pour l’enfant intubé : se baser sur la mimique)<br>
+              0 : absence de plainte<br>
+              1 : gémit brièvement (intubé : semble inquiet)<br>
+              2 : cris intermittents (intubé : mimique de cris intermittents)<br>
+              3 : cris longue durée / hurlement constant (intubé : mimique de cris constants)
+            </div>
+          </td>
+          <td><div class="opts" data-group="vocale" data-time="avant"></div></td>
+          <td><div class="opts" data-group="vocale" data-time="pendant"></div></td>
+          <td><div class="opts" data-group="vocale" data-time="apres"></div></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="legend">
+      <div class="desc">
+        <strong>Calcul :</strong> Score DAN = Facial + Membres + Vocale (par temps). Min 0 – Max 10.
+      </div>
+      <div class="desc" style="margin-top:10px">
+        <strong>Références :</strong> Carbajal R. et al. Arch Pediatr 1997. — BMJ 2003.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const scales = {
+      facial: [0,1,2,3,4],
+      membres: [0,1,2,3],
+      vocale: [0,1,2,3]
+    };
+    const times = ["avant","pendant","apres"];
+
+    function renderOptions(){
+      document.querySelectorAll(".opts").forEach(container => {
+        const group = container.dataset.group;
+        const time = container.dataset.time;
+        const name = `${group}_${time}`;
+        container.innerHTML = scales[group].map(v => `
+          <label class="opt">
+            <input type="radio" name="${name}" value="${v}">
+            <strong>${v}</strong>
+          </label>
+        `).join("");
+      });
+    }
+
+    function getVal(name){
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      return el ? parseInt(el.value, 10) : null;
+    }
+
+    function calcTime(t){
+      const f = getVal(`facial_${t}`);
+      const m = getVal(`membres_${t}`);
+      const v = getVal(`vocale_${t}`);
+      if (f === null || m === null || v === null) return null;
+      return f + m + v;
+    }
+
+    function setScore(t, val){
+      document.getElementById(`score_${t}`).textContent = (val === null) ? "—" : String(val);
+      document.getElementById(`hint_${t}`).textContent = (val === null) ? "Coche 1 réponse par item." : "Score calculé automatiquement.";
+    }
+
+    function refresh(){
+      const a = calcTime("avant");
+      const p = calcTime("pendant");
+      const ap = calcTime("apres");
+
+      setScore("avant", a);
+      setScore("pendant", p);
+      setScore("apres", ap);
+
+      const evol = document.getElementById("evol");
+      evol.textContent = `Avant: ${a ?? "—"} · Pendant: ${p ?? "—"} · Après: ${ap ?? "—"}`;
+    }
+
+    document.addEventListener("change", (e) => {
+      if (e.target && e.target.matches('input[type="radio"]')) refresh();
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      document.querySelectorAll('input[type="radio"]:checked').forEach(r => r.checked = false);
+      refresh();
+      window.scrollTo({top:0,behavior:"smooth"});
+    });
+
+    document.getElementById("printBtn").addEventListener("click", () => window.print());
+
+    renderOptions();
+    refresh();
+  </script>
+</body>
+</html>
